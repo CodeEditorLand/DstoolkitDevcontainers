@@ -1,0 +1,81 @@
+{
+    "name": "sample_pytorch_gpu_project",
+    "build": {
+        // use src directory as build context so that common/requirements.txt is accessible during build
+        "context": "../../",
+        "dockerfile": "Dockerfile"
+    },
+    "workspaceFolder": "/workspaces/dstoolkit-devcontainers/src/sample_pytorch_gpu_project",
+    "shutdownAction": "none",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZsh": true,
+            "username": "devuser",
+        },
+    },
+    "runArgs": [
+        "--gpus",
+        "all",
+        "--env-file",
+        "../../.env"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "codezombiech.gitignore",
+                "DavidAnson.vscode-markdownlint",
+                "donjayamanne.githistory",
+                "donjayamanne.python-environment-manager",
+                "eamodio.gitlens",
+                "GitHub.copilot",
+                "github.copilot-chat",
+                "Gruntfuggly.todo-tree",
+                "ionutvmi.path-autocomplete",
+                "marchiore.csvtomarkdown",
+                "mechatroner.rainbow-csv",
+                "ms-azure-devops.azure-pipelines",
+                "ms-python.black-formatter",
+                "ms-python.flake8",
+                "ms-python.isort",
+                "ms-python.mypy-type-checker",
+                "ms-python.python",
+                "ms-toolsai.jupyter",
+                "ms-vsliveshare.vsliveshare",
+                "njpwerner.autodocstring",
+                "redhat.vscode-yaml",
+                "streetsidesoftware.code-spell-checker",
+                "timonwong.shellcheck",
+            ],
+            "settings": {
+                "autoDocstring.docstringFormat": "google",
+                "flake8.args": [
+                    "--max-line-length=88"
+                ],
+                "flake8.importStrategy": "fromEnvironment",
+                "isort.args": [
+                    "--profile",
+                    "black"
+                ],
+                "isort.importStrategy": "fromEnvironment",
+                "mypy-type-checker.importStrategy": "fromEnvironment",
+                "python.linting.banditEnabled": true,
+                "python.linting.banditArgs": [
+                    "-r",
+                    "--configfile=${workspaceFolder}/../../bandit.yml"
+                ],
+                "python.testing.pytestEnabled": true,
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "[python]": {
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": true
+                    },
+                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.formatOnSave": true,
+                    "files.trimTrailingWhitespace": true
+                },
+            },
+        }
+    },
+}
