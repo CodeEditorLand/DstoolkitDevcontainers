@@ -8,12 +8,13 @@ version: 1
 
 code: /workspace/src
 command: >-
-  python sample_pytorch_gpu_project/train.py --train_artifacts_dir ${{outputs.train_artifacts_dir}} --batch_size ${{inputs.batch_size}}
+    python sample_pytorch_gpu_project/train.py --train_artifacts_dir
+    ${{outputs.train_artifacts_dir}} --batch_size ${{inputs.batch_size}}
 inputs:
-  batch_size:
-    type: integer
-    default: 4
+    batch_size:
+        type: integer
+        default: 4
 outputs:
-  train_artifacts_dir:
-    type: uri_folder
-environment: azureml:pytorch-gpu-env@latest  # should match name used in aml_setup/create-env.yaml
+    train_artifacts_dir:
+        type: uri_folder
+environment: azureml:pytorch-gpu-env@latest # should match name used in aml_setup/create-env.yaml
