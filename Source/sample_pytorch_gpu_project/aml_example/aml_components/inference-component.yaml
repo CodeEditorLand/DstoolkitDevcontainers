@@ -8,12 +8,11 @@ version: 1
 
 code: /workspace/src
 command: >-
-    python sample_pytorch_gpu_project/inference.py --train_artifacts_dir
-    ${{inputs.train_artifacts_dir}} --preds_dir ${{outputs.test_set_preds_dir}}
+  python sample_pytorch_gpu_project/inference.py --train_artifacts_dir ${{inputs.train_artifacts_dir}} --preds_dir ${{outputs.test_set_preds_dir}}
 inputs:
-    train_artifacts_dir:
-        type: uri_folder
+  train_artifacts_dir:
+    type: uri_folder
 outputs:
-    test_set_preds_dir:
-        type: uri_folder
-environment: azureml:pytorch-gpu-env@latest # should match name used in aml_setup/create-env.yaml
+  test_set_preds_dir:
+    type: uri_folder
+environment: azureml:pytorch-gpu-env@latest  # should match name used in aml_setup/create-env.yaml

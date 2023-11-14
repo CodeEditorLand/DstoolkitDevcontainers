@@ -1,4 +1,4 @@
-$schema: https://azuremlschemas.azureedge.net/latest/amlCompute.schema.json
+$schema: https://azuremlschemas.azureedge.net/latest/amlCompute.schema.json 
 name: pytorch-cpu-cluster
 type: amlcompute
 size: Standard_DS3_v2
