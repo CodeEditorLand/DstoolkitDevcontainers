@@ -15,15 +15,15 @@ repo_root="$(pwd)"
 
 # Find all the 'src' subdirectories with a 'tests' folder, extract the dir name as test_dir_parent
 for test_dir_parent in $(find "${repo_root}/src" -type d -name 'tests' -exec dirname {} \; | sed "s|${repo_root}/src/||"); do
-	# Check for at least one Python file in the 'tests' subdirectory of test_dir_parent
-	count_test_py_files=$(find "${repo_root}/src/${test_dir_parent}/tests"/*.py 2>/dev/null | wc -l)
-	if [ $count_test_py_files != 0 ]; then
-		# Use the devcontainer Dockerfile to build a Docker image for the module to run tests
-		docker build "${repo_root}/src" -f "${repo_root}/src/${test_dir_parent}/.devcontainer/Dockerfile" -t "${test_dir_parent}"
-
-		echo "Running tests for ${test_dir_parent}, found ${count_test_py_files} test files"
-
-		: '
+    # Check for at least one Python file in the 'tests' subdirectory of test_dir_parent
+    count_test_py_files=$(find "${repo_root}/src/${test_dir_parent}/tests"/*.py 2>/dev/null | wc -l)
+    if [ $count_test_py_files != 0 ]; then
+        # Use the devcontainer Dockerfile to build a Docker image for the module to run tests
+        docker build "${repo_root}/src" -f "${repo_root}/src/${test_dir_parent}/.devcontainer/Dockerfile" -t "${test_dir_parent}"
+        
+        echo "Running tests for ${test_dir_parent}, found ${count_test_py_files} test files"
+        
+        : '
         Run the tests in the built Docker container, saving the test results and coverage report to /tmp/artifact_output.
         Some other key parts of the docker run command are explained here:
            - The local /tmp dir is mounted to docker /tmp so that there are no permission issues with the docker user and the 
@@ -35,13 +35,13 @@ for test_dir_parent in $(find "${repo_root}/src" -type d -name 'tests' -exec dir
            - exit with pytest exit code to ensure script exits with non-zero exit code if pytest fails, this ensure the CI
              pipeline in ADO fails if any tests fail.
         '
-		docker run \
-			-v "${repo_root}:/workspace" \
-			-v "/tmp:/tmp" \
-			--env test_dir_parent="$test_dir_parent" \
-			--env COVERAGE_FILE=/tmp/artifact_output/.coverage \
-			"${test_dir_parent}" \
-			/bin/bash -ec '
+        docker run  \
+            -v "${repo_root}:/workspace" \
+            -v "/tmp:/tmp" \
+            --env test_dir_parent="$test_dir_parent" \
+            --env COVERAGE_FILE=/tmp/artifact_output/.coverage \
+            "${test_dir_parent}" \
+            /bin/bash -ec '
                 mkdir -p /tmp/artifact_output/$test_dir_parent; \
                 env "PATH=$PATH" \
                 env "PYTHONPATH=/workspace/src/$test_dir_parent:$PYTHONPATH" \
@@ -55,7 +55,7 @@ for test_dir_parent in $(find "${repo_root}/src" -type d -name 'tests' -exec dir
                     --cov-append \
                     /workspace/src/$test_dir_parent; \
                 exit $?'
-	fi
+    fi
 done
 
 : '
@@ -64,5 +64,5 @@ so that it is preserved for publishing. See the .azuredevops/ado-ci-pipeline-ms-
 BUILD_ARTIFACTSTAGINGDIRECTORY is set.
 '
 if [ -n "$BUILD_ARTIFACTSTAGINGDIRECTORY" ]; then
-	cp -r /tmp/artifact_output/* "${BUILD_ARTIFACTSTAGINGDIRECTORY}"
+    cp -r /tmp/artifact_output/* "${BUILD_ARTIFACTSTAGINGDIRECTORY}"
 fi
