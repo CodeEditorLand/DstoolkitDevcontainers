@@ -1,0 +1,15 @@
+**/outputs
+**/data
+**/logs
+**/tests
+**/__pycache__
+**/.mypy_cache
+**/.pytest_cache
+**/.vscode
+**/junit
+**/.azuredevops
+**/.venv
+**/venv
+**/*.md
+**/train_artifacts
+**/mlruns
