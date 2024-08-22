@@ -16,7 +16,7 @@ repo_root="$(pwd)"
 # Find all the 'src' subdirectories with a 'tests' folder, extract the dir name as test_dir_parent
 for test_dir_parent in $(find "${repo_root}/src" -type d -name 'tests' -exec dirname {} \; | sed "s|${repo_root}/src/||"); do
 	# Check for at least one Python file in the 'tests' subdirectory of test_dir_parent
-	count_test_py_files=$(find "${repo_root}/src/${test_dir_parent}/tests"/*.py 2> /dev/null | wc -l)
+	count_test_py_files=$(find "${repo_root}/src/${test_dir_parent}/tests"/*.py 2>/dev/null | wc -l)
 	if [ $count_test_py_files != 0 ]; then
 		# Use the devcontainer Dockerfile to build a Docker image for the module to run tests
 		docker build "${repo_root}/src" -f "${repo_root}/src/${test_dir_parent}/.devcontainer/Dockerfile" -t "${test_dir_parent}"
