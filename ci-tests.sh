@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 : '
 This script will run all unit tests in the repository (for all directories under src/ that
 have at least one test_*.py under a tests folder). It will build a Docker image for each directory with tests, 
